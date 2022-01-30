@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Kubectl Login Server</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/an-old-hope.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between">
+      <a class="navbar-brand" href="#">Kubectl Login Server</a>
+    
+      <form class="form-inline my-2 my-lg-0">
+        <button class="btn btn-outline-light my-2 my-sm-0" type="submit" formaction="/logout">Logout</button>
+      </form>
+    </nav>
+
+    <h2 class="text-center my-4" >Welcome {{ user }}</h2>
+
+{# scrollspy + listgroupe #}
+
+    <div class="card mb-4 mx-5">
+      <h5 class="card-header">Kubectl Plugin</h5>
+      <div class="card-body">
+        <h5 class="card-title">Install <code>kubectl</code> plugin.</h5>
+        <h5 class="card-title">Use the plugin.</h5>
+      </div>
+    </div>
+
+    <div class="card mb-4 mx-5">
+      <h5 class="card-header">Download Kubeconfig File</h5>
+      <div class="card-body">
+        <p class="card-text">Save this file as <code>~/.kube/config</code> to enable OIDC based <code>kubectl</code> authentication.</p>
+        <a href="#" class="btn btn-primary">Download Config File</a>
+      </div>
+    </div>
+
+    <div class="card mb-4 mx-5">
+      <h5 class="card-header">Running kubectl</h5>
+      <div class="card-body">
+        <p class="card-text">Once you've saved the above <code>~/.kube/config</code> file you should be able to run <code>kubectl</code>: </p>
+        <pre><code class="bash"># These are examples. Your context and cluster names will likely differ.
+
+$ kubectl config get-contexts
+CURRENT   NAME          CLUSTER                    AUTHINFO   NAMESPACE
+          experimental  experimental.example.org   kuberos
+          prod          prod.example.org           kuberos
+
+$ kubectl --context {{ context }} get namespaces
+NAME          STATUS    AGE
+default       Active    83d
+experimental  Active    15d
+
+$ kubectl --context experimental -n experimental get pods
+NAME                                       READY     STATUS             RESTARTS   AGE
+kuberos-4074452424-06m0b                   1/1       Running            1          6d</code></pre>
+      </div>
+    </div>
+
+    <div class="card mx-5 mb-5">
+      <h5 class="card-header">Authenticate Manually</h5>
+      <div class="card-body">
+        <p class="card-text">If you want to maintain your existing <code>~/.kube/config</code> file you can run the following to add your user: </p>
+      </div>
+    </div>
+  </body>
+
+</html>

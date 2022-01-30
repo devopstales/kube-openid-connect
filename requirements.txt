@@ -1,0 +1,6 @@
+pyinstaller
+flask
+requests_oauthlib
+requests
+waitress
+flask_cors
