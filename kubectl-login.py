@@ -12,7 +12,7 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 @app.route('/',methods = ['POST', 'GET'])
 def hello_me():
     if request.method == 'POST':
-        content = request.json
+        content = request['kube_user'].json
         print("\nPaste/merge this user into your $KUBECONFIG\n")
         print(yaml.safe_dump(content))
         print('(Press CTRL+C to quit)')
@@ -30,4 +30,3 @@ if __name__ == '__main__':
 
     # production mode
     serve(app, port=8080)
-

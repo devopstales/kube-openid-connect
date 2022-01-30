@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Kubectl Login Server</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static',filename='bootstrap.min.css') }}" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="{{ url_for('static',filename='jquery-3.2.1.slim.min.js') }}" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static',filename='popper.min.js') }}" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static',filename='bootstrap.min.js') }}" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/an-old-hope.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static',filename='an-old-hope.min.css') }}">
+    <script src="{{ url_for('static',filename='highlight.min.js') }}"></script>
     <script>hljs.highlightAll();</script>
   </head>
 
@@ -25,52 +25,90 @@
       </form>
     </nav>
 
-    <h2 class="text-center my-4" >Welcome {{ user }}</h2>
+    <h2 class="text-center my-4" >Welcome {{ preferred_username }}</h2>
+    <h3 class="text-center my-4" >In order to get command-line acces to the {{ context }} Kubernetes cluster, you will need to configure OpenID Connect (OIDC) authentication for your client.</h3>
 
-{# scrollspy + listgroupe #}
+    <ul class="nav nav-tabs mb-4 mx-5">
+      <li class="nav-item">
+        <a class="nav-link active" href="#list-item-1">Kubectl Plugin</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#list-item-2">Download Kubeconfig</a>
+      </li>
+      <li class="nav-item"></li>
+        <a class="nav-link" href="#list-item-3">Running kubectl</a>
+    </li>
+      <li class="nav-item"></li>
+        <a class="nav-link" href="#list-item-4">Advanced</a>
+      </li>
+    </ul>
 
-    <div class="card mb-4 mx-5">
-      <h5 class="card-header">Kubectl Plugin</h5>
-      <div class="card-body">
-        <h5 class="card-title">Install <code>kubectl</code> plugin.</h5>
-        <h5 class="card-title">Use the plugin.</h5>
+    <div data-spy="scroll" data-target="#list" data-offset="0" class="scrollspy"></div>
+      <div class="card mb-4 mx-5">
+        <h5 class="card-header" id="list-item-1">Kubectl Plugin</h5>
+        <div class="card-body">
+          <h5 class="card-title">Install <code>kubectl</code> plugin.</h5>
+          <h5 class="card-title">Use the plugin.</h5>
+        </div>
       </div>
-    </div>
 
-    <div class="card mb-4 mx-5">
-      <h5 class="card-header">Download Kubeconfig File</h5>
-      <div class="card-body">
-        <p class="card-text">Save this file as <code>~/.kube/config</code> to enable OIDC based <code>kubectl</code> authentication.</p>
-        <a href="#" class="btn btn-primary">Download Config File</a>
+      <div class="card mb-4 mx-5">
+        <h5 class="card-header" id="list-item-2">Download Kubeconfig File</h5>
+        <div class="card-body">
+          <p class="card-text">If you didn't want to use the kubectl plugin, save this file as <code>~/.kube/config</code> to enable OIDC based <code>kubectl</code> authentication.</p>
+          <a href="/get-file" class="btn btn-primary">Download Config File</a>
+        </div>
       </div>
-    </div>
 
-    <div class="card mb-4 mx-5">
-      <h5 class="card-header">Running kubectl</h5>
-      <div class="card-body">
-        <p class="card-text">Once you've saved the above <code>~/.kube/config</code> file you should be able to run <code>kubectl</code>: </p>
-        <pre><code class="bash"># These are examples. Your context and cluster names will likely differ.
+      <div class="card mb-4 mx-5">
+        <h5 class="card-header" id="list-item-3">Running kubectl</h5>
+        <div class="card-body">
+          <p class="card-text">Once you get the <code>~/.kube/config</code> file you should be able to run <code>kubectl</code>: </p>
+          <pre><code class="bash"># These are examples. Your context and cluster names will likely differ.
 
 $ kubectl config get-contexts
-CURRENT   NAME          CLUSTER                    AUTHINFO   NAMESPACE
-          experimental  experimental.example.org   kuberos
-          prod          prod.example.org           kuberos
+CURRENT   NAME       CLUSTER            AUTHINFO   NAMESPACE
+          k8s        k8s                k8s        
+          microk8s   microk8s-cluster   admin      
 
-$ kubectl --context {{ context }} get namespaces
+$ kubectl --context k8s get namespaces
 NAME          STATUS    AGE
 default       Active    83d
 experimental  Active    15d
 
-$ kubectl --context experimental -n experimental get pods
+$ kubectl --context k8s -n experimental get pods
 NAME                                       READY     STATUS             RESTARTS   AGE
-kuberos-4074452424-06m0b                   1/1       Running            1          6d</code></pre>
+testapp-4074452424-06m0b                   1/1       Running            1          6d</code></pre>
+        </div>
       </div>
-    </div>
 
-    <div class="card mx-5 mb-5">
-      <h5 class="card-header">Authenticate Manually</h5>
-      <div class="card-body">
-        <p class="card-text">If you want to maintain your existing <code>~/.kube/config</code> file you can run the following to add your user: </p>
+      <div class="card mx-5 mb-5">
+        <h5 class="card-header" id="list-item-4">Authenticate Manually</h5>
+        <div class="card-body">
+          <p class="card-text">If you want to maintain your existing <code>~/.kube/config</code> file you can run the following to add your user: </p>
+          <pre><code class="bash">#Create k8s server ca pem
+echo "{{ k8s_server_ca }}
+" \ > ca-k8s.pem
+
+# Add your server to kubectl config
+kubectl config set-cluster {{ context }} \
+--server={{ k8s_server_url }} \
+--user={{ preferred_username }} \
+--certificate-authority=ca-k8s.pem
+
+# Add your user to kubectl config
+kubectl config set-credentials "{{ preferred_username }}" \
+--auth-provider=oidc \
+--auth-provider-arg=client-id="{{ client_id }}" \
+--auth-provider-arg=client-secret="{{ client_secret }}" \
+--auth-provider-arg=id-token="{{ id_token }}" \
+--auth-provider-arg=refresh-token="{{ refresh_token }}" \
+--auth-provider-arg=idp-issuer-url="{{ oauth_server_uri }}"
+
+# Associate your user with an existing cluster
+kubectl config set-context {{ context }} --cluster {{ context }} --user="{{ preferred_username }}"
+kubectl config use-context {{ context }}</code></pre>
+        </div>
       </div>
     </div>
   </body>

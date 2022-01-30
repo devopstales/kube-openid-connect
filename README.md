@@ -5,7 +5,7 @@ pip3 install -r requirements.txt
 ### Build executable
 
 ```
-pyinstaller 
+pyinstaller --onefile --noconfirm --noconsole --clean --log-level=WARN --key=MySuperSecretPassword --strip kubectl-login.py
 ```
 
 ---

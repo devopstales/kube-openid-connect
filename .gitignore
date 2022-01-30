@@ -1,3 +1,7 @@
 .DS_Store
 .vscode/
+__pycache__/
+kubectl-login.spec
+build/
+dist/
 test*
