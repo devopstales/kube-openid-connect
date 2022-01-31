@@ -5,7 +5,6 @@ from itsdangerous import base64_decode
 from requests_oauthlib import OAuth2Session
 import yaml
 import requests
-import base64
 
 oauth_server_uri = os.getenv("OAUTH_URI")
 client_id = os.getenv("OAUTH_CLIENT_ID")
@@ -85,14 +84,14 @@ def callback():
         kube_user["auth-provider"]["config"]["client-secret"] = client_secret
     if verify:
         kube_user["auth-provider"]["config"]["idp-certificate-authority"] = verify
-    user_config_snippet = {"users": [{"name": userinfo["preferred_username"], "user": kube_user}]}
+    user_config_snippet = {"name": userinfo["preferred_username"], "user": kube_user}
 
     #print("\nPaste/merge this user into your $KUBECONFIG\n")
-    #print(yaml.safe_dump(config_snippet)) # debug
+    #print(yaml.safe_dump(user_config_snippet)) # debug
 
     try:
       x = requests.post('http://%s:8080/' % request.remote_addr, json={
-            "kube_user": kube_user
+            "kube_user": user_config_snippet
           }
         )
       print(x.text)
