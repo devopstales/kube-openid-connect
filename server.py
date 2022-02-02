@@ -84,14 +84,29 @@ def callback():
         kube_user["auth-provider"]["config"]["client-secret"] = client_secret
     if verify:
         kube_user["auth-provider"]["config"]["idp-certificate-authority"] = verify
-    user_config_snippet = {"name": userinfo["preferred_username"], "user": kube_user}
 
-    #print("\nPaste/merge this user into your $KUBECONFIG\n")
+    kube_cluster = {
+        "certificate-authority-data": base64_k8s_server_ca,
+        "server": k8s_server_url
+    }
+
+    kube_context = {
+        "cluster": context,
+        "user": context,
+    }
+
+    user_config_snippet = {"name": context, "user": kube_user}
+    cluster_config_snippet = {"name": context, "cluster": kube_cluster}
+    context_config_snippet = {"name": context, "context": kube_context}
+
     #print(yaml.safe_dump(user_config_snippet)) # debug
 
     try:
       x = requests.post('http://%s:8080/' % request.remote_addr, json={
-            "kube_user": user_config_snippet
+            "kube_user": user_config_snippet,
+            "kube_cluster": cluster_config_snippet,
+            "kube_context": context_config_snippet,
+            "context": context
           }
         )
       print(x.text)
@@ -103,6 +118,7 @@ def callback():
     return render_template(
         'index.html',
         preferred_username=userinfo["preferred_username"],
+        redirect_uri=redirect_uri,
         client_id=client_id,
         client_secret=client_secret,
         id_token=token["id_token"],
@@ -124,7 +140,6 @@ def get_file():
     ).json()
 
     token_url = auth_server_info["token_endpoint"]
-    userinfo_url = auth_server_info["userinfo_endpoint"]
 
     token = oauth.refresh_token(
         token_url=token_url,
@@ -134,15 +149,6 @@ def get_file():
         verify=verify,
         timeout=60,
     )
-
-    #token = session['oauth_token']
-
-    # discover user info
-    userinfo = oauth.get(
-        userinfo_url,
-        timeout=60,
-        verify=verify,
-    ).json()
 
     kube_user = {
             "auth-provider": {
@@ -167,7 +173,7 @@ def get_file():
 
     kube_context = {
         "cluster": context,
-        "user": userinfo["preferred_username"],
+        "user": context,
     }
 
     config_snippet = {
@@ -184,7 +190,7 @@ def get_file():
         "current-context": context,
         "preferences": {},
         "users": [{
-            "name": userinfo["preferred_username"],
+            "name": context,
             "user": kube_user
         }]
     }

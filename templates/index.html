@@ -49,6 +49,9 @@
         <div class="card-body">
           <h5 class="card-title">Install <code>kubectl</code> plugin.</h5>
           <h5 class="card-title">Use the plugin.</h5>
+          <pre><code class="bash">$ kubectl login {{ redirect_uri }}
+Write config for {{ context }} to ~/.kube/config
+(Press CTRL+C to quit)</code></pre>
         </div>
       </div>
 
@@ -86,7 +89,7 @@ testapp-4074452424-06m0b                   1/1       Running            1       
         <h5 class="card-header" id="list-item-4">Authenticate Manually</h5>
         <div class="card-body">
           <p class="card-text">If you want to maintain your existing <code>~/.kube/config</code> file you can run the following to add your user: </p>
-          <pre><code class="bash">#Create k8s server ca pem
+          <pre><code class="bash"># Create k8s server ca pem
 echo "{{ k8s_server_ca }}
 " \ > ca-k8s.pem
 

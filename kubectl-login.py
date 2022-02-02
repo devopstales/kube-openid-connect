@@ -13,9 +13,8 @@ app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route('/',methods = ['POST', 'GET'])
-def hello_me():
+def index():
     if request.method == 'POST':
-        n = 0
         system = platform.system()
         if system == 'Darwin' or system == 'Linux':
             config_pah = os.path.expanduser('~/.kube/config')
@@ -23,33 +22,64 @@ def hello_me():
         elif system == 'Windows':
             config_pah = os.path.expanduser('~\\.kube\\config')
             config_folder = os.path.expanduser('~\\.kube\\')
-        
+
+        content = request.json
+        kube_user = content['kube_user']
+        kube_cluster = content['kube_cluster']
+        kube_context = content['kube_context']
+        context = content['context']
+
         if Path(config_pah).is_file():
             with open(config_pah) as fp:
                 data = yaml.load(fp, Loader=yaml.FullLoader)
-            
-            content = request.json
-            kube_user = content['kube_user']
-
             # merge users
+            n = 0
             for i in data['users']:
                 if i['name'] == kube_user['name']:
                     n += 1
             if n == 0:        
-                print(n)
                 data['users'].append(kube_user)
-            # merge cluster
-            # merge context
-                
-            # print to file
-
-            #print("\nPaste/merge this user into your $KUBECONFIG\n")
-            #print(yaml.safe_dump(data))
+                data['clusters'].append(kube_cluster)
+                data['contexts'].append(kube_context)
+                #print(yaml.safe_dump(data)) # debug
+                print("Write config for %s to %s" % (kube_user['name'], config_pah))
+                file = open(config_pah, "w")
+                yaml.dump(data, file)
+            else:
+                print("Config for %s already exists" % kube_user['name'])
         elif Path(config_folder).is_dir():
-            print()
-            # create file from scratch
+            config_snippet = {
+                "apiVersion": "v1",
+                "kind": "Config",
+                "clusters": [],
+                "contexts": [],
+                "current-context": context,
+                "preferences": {},
+                "users": []
+            }
+            config_snippet['users'].append(kube_user)
+            config_snippet['clusters'].append(kube_cluster)
+            config_snippet['contexts'].append(kube_context)
+            print("Create config file with config for %s to %s" % (kube_user['name'], config_pah))
+            file = open(config_pah, "w+")
+            yaml.dump(config_snippet, file)
         else:
-            print('Someting went wrong')
+            os.makedirs(config_folder)
+            config_snippet = {
+                "apiVersion": "v1",
+                "kind": "Config",
+                "clusters": [],
+                "contexts": [],
+                "current-context": context,
+                "preferences": {},
+                "users": []
+            }
+            config_snippet['users'].append(kube_user)
+            config_snippet['clusters'].append(kube_cluster)
+            config_snippet['contexts'].append(kube_context)
+            print("Create folder and config file with config for %s to %s" % (kube_user['name'], config_pah))
+            file = open(config_pah, "w+")
+            yaml.dump(config_snippet, file)
         
         print('(Press CTRL+C to quit)')
         return ''
