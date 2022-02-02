@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config
+  namespace: kube-openid-connector
+  labels:
+    app: kube-openid-connector
+data:
+  OAUTH_URI: ""
+  OAUTH_CLIENT_ID: ""
+  OAUTH_CLIENT_SECRET: ""
+  K8S_CONTEXT: ""
+  K8S_SERVER_URL: ""
+  K8S_SERVER_CA: ""

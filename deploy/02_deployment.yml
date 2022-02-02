@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-openid-connector
+  namespace: kube-openid-connector
+spec:
+  selector:
+    matchLabels:
+      app: kube-openid-connector
+  template:
+    metadata:
+      labels:
+        app: kube-openid-connector
+    spec:
+      securityContext:
+          fsGroup: 10001
+#      imagePullSecrets:
+#      - name: regcred
+      containers:
+      - image: devopstales/kube-openid-connector:0.1-devel
+        name: server
+        imagePullPolicy: IfNotPresent
+        envFrom:
+          - configMapRef:
+              name: config
+        ports:
+          - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: kube-openid-connector
+  name: kube-openid-connector
+  namespace: kube-openid-connector
+spec:
+  selector:
+    app: kube-openid-connector
+  ports:
+    - name: http
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
