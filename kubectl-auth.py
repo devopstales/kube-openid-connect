@@ -81,7 +81,9 @@ def index():
             file = open(config_pah, "w+")
             yaml.dump(config_snippet, file)
         
-        print('(Press CTRL+C to quit)')
+        print('Happy Kubernetes interaction!')
+        #print('(Press CTRL+C to quit)')
+        exit()
         return ''
     else:
       print ('else')
