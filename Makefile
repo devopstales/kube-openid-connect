@@ -6,17 +6,33 @@ all:    version
 
 .DEFAULT_GOAL := all
 
+current_dir = $(shell pwd)
+
+devel-delete:
+	kim image rm devopstales/kube-openid-connector:$(VERSION)-devel
+#	rm -f  docker/server.py
+#	rm -rf docker/templates
+#	rm -rf docker/static
+
 devel:
-	cp server.py docker/
+	cp server.py    docker/
+	cp -r templates docker/
+	cp -r static    docker/
 	kim build --tag devopstales/kube-openid-connector:$(VERSION)-devel docker/
-	rm -f docker/server.py
+	rm -f  docker/server.py
+#	rm -rf docker/templates
+#	rm -rf docker/static
 
 version:
 	cp server.py docker/
+	cp -r templates docker/
+	cp -r static    docker/
 	docker build -t devopstales/kube-openid-connector:$(VERSION) docker/
 	docker build -t devopstales/kube-openid-connector:$(VERSION)-arm32v7 --build-arg ARCH=arm32v7/ docker/
 	docker build -t devopstales/kube-openid-connector:$(VERSION)-arm64v8 --build-arg ARCH=arm64v8/ docker/
 	rm -f docker/server.py
+	rm -rf docker/templates
+	rm -rf docker/static
 
 push-version:
 	docker push devopstales/kube-openid-connector:$(VERSION)-arm32v7
@@ -31,8 +47,16 @@ push-latest:
 	docker manifest push devopstales/kube-openid-connector:latest
 
 build-client:
-	pyinstaller --onefile --noconfirm --noconsole --clean --log-level=WARN --key=${BUILDSECRET} --strip kubectl-auth.py
-	cp dist/kubectl-auth dist/kubeauth
+	cp kubectl-login.py pyinstaller/kubectl-login.py
+	cp requirements.txt pyinstaller/requirements.txt
+	docker run -it -v $(current_dir)/pyinstaller/:/src kicsikrumpli/wine-pyinstaller \
+		--clean -y \
+		--dist ./dist/windows \
+		--workpath /tmp \
+		-F kubectl-login.py
+	docker run -v "$(current_dir)/pyinstaller/:/src/" cdrx/pyinstaller-linux
+	rm -f pyinstaller/kubectl-login.py
+	rm -f pyinstaller/requirements.txt
 
 deploy-client:
 	git tag ${RELEASE}

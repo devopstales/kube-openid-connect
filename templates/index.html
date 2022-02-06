@@ -48,15 +48,15 @@
         <h5 class="card-header" id="list-item-1">Kubectl Plugin</h5>
         <div class="card-body">
           <h5 class="card-title">Install as Kubectl plugin.</h5><pre><code># Homebrew (macOS and Linux)
-brew install devopstales/kubeauth/kubeauth-plugin
+brew install devopstales/oauth-login
 
 # Krew (macOS, Linux, Windows and ARM)
-kubectl krew install oidc-auth
+kubectl krew install oauth-login
 
 # Chocolatey (Windows)
-choco install kubeauth-plugin</code></pre>
+choco install oauth-login</code></pre>
           <h5 class="card-title">Use the plugin.</h5>
-          <pre><code class="bash">$ kubectl auth {{ redirect_uri }}
+          <pre><code class="bash">$ kubectl login {{ redirect_uri }}
 Write config for {{ context }} to ~/.kube/config
 (Press CTRL+C to quit)</code></pre>
         </div>

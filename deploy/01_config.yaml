@@ -6,6 +6,7 @@ metadata:
   labels:
     app: kube-openid-connector
 data:
+  OAUTH_REDIRECT_URI: "http://kubeauth.k8s.intra/callback"
   OAUTH_URI: ""
   OAUTH_CLIENT_ID: ""
   OAUTH_CLIENT_SECRET: ""

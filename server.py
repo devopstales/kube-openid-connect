@@ -101,17 +101,24 @@ def callback():
 
     #print(yaml.safe_dump(user_config_snippet)) # debug
 
+    
+    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+        remote_addr = request.remote_addr
+    else:
+        remote_addr = request.environ['HTTP_X_FORWARDED_FOR']
+    app.logger.debug(request.remote_addr)
+
     try:
-      x = requests.post('http://%s:8080/' % request.remote_addr, json={
+        x = requests.post('http://%s:8080/' % remote_addr, json={
             "kube_user": user_config_snippet,
             "kube_cluster": cluster_config_snippet,
             "kube_context": context_config_snippet,
             "context": context
-          }
-        )
-      print(x.text)
+            }
+        )        
+        app.logger.info(x.text)
     except:
-        print ("Kubectl print back error")
+        app.logger.error ("Kubectl print back error")
 
     session['oauth_token'] = token
     session['refresh_token'] = token.get("refresh_token")
@@ -219,4 +226,4 @@ if __name__ == '__main__':
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
     # app.secret_key = os.urandom(24)
     app.secret_key = 'development'
-    app.run(host='localhost', port=5000,debug=True, use_reloader=False)
+    app.run(host='0.0.0.0', port=5000,debug=True, use_reloader=False)

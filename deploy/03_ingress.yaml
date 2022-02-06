@@ -1,28 +1,26 @@
-apiVersion: v1
-items:
-- apiVersion: networking.k8s.io/v1
-  kind: Ingress
-  metadata:
-    annotations:
-#      cert-manager.io/cluster-issuer: ca-issuer
-#      ingress.kubernetes.io/secure-backends: "true"
-#      kubernetes.io/ingress.class: nginx
-    labels:
-      app: kube-openid-connector
-    name: kube-openid-connector
-    namespace: kube-openid-connector
-  spec:
-    rules:
-    - host: kubeauth.k8s.intra
-      http:
-        paths:
-        - backend:
-            service:
-              name: kube-openid-connector
-              port:
-                number: 5000
-          pathType: ImplementationSpecific
-#    tls:
-#    - hosts:
-#      - kubeauth.k8s.intra
-#      secretName: kubeauth-ingress-tls
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+#    cert-manager.io/cluster-issuer: ca-issuer
+#    ingress.kubernetes.io/secure-backends: "true"
+#    kubernetes.io/ingress.class: nginx
+  labels:
+    app: kube-openid-connector
+  name: kube-openid-connector
+  namespace: kube-openid-connector
+spec:
+  rules:
+  - host: kubeauth.k8s.intra
+    http:
+      paths:
+      - backend:
+          service:
+            name: kube-openid-connector
+            port:
+              number: 5000
+        pathType: ImplementationSpecific
+#  tls:
+#  - hosts:
+#    - kubeauth.k8s.intra
+#    secretName: kubeauth-ingress-tls
