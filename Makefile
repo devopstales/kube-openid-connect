@@ -59,5 +59,12 @@ build-client:
 	rm -f pyinstaller/requirements.txt
 
 deploy-client:
-	git tag ${RELEASE}
-	git push --force --tags
+	cd pyinstaller/dist/linux; \
+	pwd; \
+	tar -czf kubectl-login_linux.tar.gz kubectl-login; \
+	cd ../windows; \
+	tar -czf kubectl-login_windows.tar.gz kubectl-login.exe
+#	git tag ${RELEASE}
+#	git push --force --tags
+	rm -f pyinstaller/dist/windows/kubectl-login_windows.tar.gz
+	rm -f pyinstaller/dist/linux/kubectl-login_linux.tar.gz
