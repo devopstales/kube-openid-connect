@@ -11,3 +11,4 @@ docker/*.py
 pyinstaller/__pycache__/
 pyinstaller/dist/
 pyinstaller/*.py
+!pyinstaller/kubectl-login.spec
