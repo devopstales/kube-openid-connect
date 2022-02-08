@@ -1,5 +1,5 @@
 export VERSION=0.1
-export RELEASE=v0.1
+export C_RELEASE=0.1
 
 .PHONY: all
 all:    version
@@ -7,6 +7,7 @@ all:    version
 .DEFAULT_GOAL := all
 
 current_dir = $(shell pwd)
+token = ${GITHUB_TOKEN}
 
 devel-delete:
 	kim image rm devopstales/kube-openid-connector:$(VERSION)-devel
@@ -60,11 +61,12 @@ build-client:
 
 deploy-client:
 	cd pyinstaller/dist/linux; \
-	pwd; \
+	chmod +x kubectl-login; \
 	tar -czf kubectl-login_linux.tar.gz kubectl-login; \
 	cd ../windows; \
 	tar -czf kubectl-login_windows.tar.gz kubectl-login.exe
-#	git tag ${RELEASE}
-#	git push --force --tags
-	rm -f pyinstaller/dist/windows/kubectl-login_windows.tar.gz
-	rm -f pyinstaller/dist/linux/kubectl-login_linux.tar.gz
+	mkdir -p pyinstaller/release
+	mv pyinstaller/dist/windows/kubectl-login_windows.tar.gz pyinstaller/release
+	mv pyinstaller/dist/linux/kubectl-login_linux.tar.gz pyinstaller/release
+	gh release create client_v${C_RELEASE} --generate-notes ./pyinstaller/release/*.tar.gz
+	rm -rf pyinstaller/release
