@@ -116,6 +116,7 @@ def callback():
             "context": context
             }
         )        
+        app.logger.info("Send to client:")
         app.logger.info(x.text)
     except:
         app.logger.error ("Kubectl print back error")
