@@ -1,10 +1,7 @@
-tinyaes
-#pyinstaller==4.9
+pyyaml
 flask
-requests_oauthlib
-requests
 waitress
 flask_cors
-pyyaml
 itsdangerous
-pathlib
+validators
+#pyinstaller==4.9

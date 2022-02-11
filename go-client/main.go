@@ -112,7 +112,8 @@ func callback(c *gin.Context) {
 		defer os.Remove(configOverrides.Name())
 
 		// Get config from request and write to file
-		clientcmd.WriteToFile(createValidTestConfig(request), configOverrides.Name())
+		requestConfig, context := createValidTestConfig(request)
+		clientcmd.WriteToFile(requestConfig, configOverrides.Name())
 
 		// merge files
 		loadingRules := clientcmd.ClientConfigLoadingRules{
@@ -132,14 +133,16 @@ func callback(c *gin.Context) {
 			fmt.Printf("Unexpected error: %v", err)
 		}
 
-		fmt.Println(string(output)) // Debug
+		//fmt.Println(string(output)) // Debug
 		// Write to file
+		WriteToFile(string(output), context)
 	} else {
 		configOverrides, _ := ioutil.TempFile("", "")
 		defer os.Remove(configOverrides.Name())
 
 		// Get config from request and write to file
-		clientcmd.WriteToFile(createValidTestConfig(request), configOverrides.Name())
+		requestConfig, context := createValidTestConfig(request)
+		clientcmd.WriteToFile(requestConfig, configOverrides.Name())
 
 		// merge file
 		loadingRules := clientcmd.ClientConfigLoadingRules{
@@ -159,8 +162,9 @@ func callback(c *gin.Context) {
 			fmt.Printf("Unexpected error: %v", err)
 		}
 
-		fmt.Println(string(output)) // Debug
+		//fmt.Println(string(output)) // Debug
 		// Write to file
+		WriteToFile(string(output), context)
 	}
 
 	os.Exit(0)
@@ -183,12 +187,12 @@ func GetKubeConfig() (bool, string) {
 			// test if filename exists
 			if _, err := os.Stat(dirname); os.IsNotExist(err) {
 				// dir does not exist so create it
-				fmt.Println("dir does not exist so create it") // Debug
+				// fmt.Println("dir does not exist so create it") // Debug
 				os.Mkdir(dirname, 0755)
 				fileExist = false
 			} else if _, err := os.Stat(filename); os.IsNotExist(err) {
 				// file does not exist
-				fmt.Println("file does not exist") // Debug
+				// fmt.Println("file does not exist") // Debug
 				fileExist = false
 			} else {
 				// file exists
@@ -211,7 +215,7 @@ func GetKubeConfig() (bool, string) {
 	return fileExist, kubeConfigFileName
 }
 
-func createValidTestConfig(request request) clientcmdapi.Config {
+func createValidTestConfig(request request) (clientcmdapi.Config, string) {
 	/*
 		const (
 			// demo data for test
@@ -257,5 +261,30 @@ func createValidTestConfig(request request) clientcmdapi.Config {
 		}
 	)
 
-	return kubeConfig
+	return kubeConfig, request.Context
+}
+
+func WriteToFile(content string, context string) {
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+	var dirname string = filepath.Join(homedir, ".kube")
+	var filename string = filepath.Join(dirname, "config")
+
+	f, err := os.Create(filename)
+	if err != nil {
+		log.Fatal(err)
+
+	}
+	defer f.Close()
+
+	_, err2 := f.WriteString(content)
+
+	if err2 != nil {
+		log.Fatal(err2)
+	}
+	fmt.Printf("Configfile created with config for %s to %s\n", context, filename)
+	fmt.Println("Happy Kubernetes interaction!")
 }
