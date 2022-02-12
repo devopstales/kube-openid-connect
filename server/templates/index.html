@@ -18,7 +18,10 @@
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between">
-      <a class="navbar-brand" href="#">Kubectl OIDC Auth</a>
+      <a class="navbar-brand" href="https://devopstales.github.io/tags/ kube-openid-connect/">
+        <img src="{{ url_for('static',filename='devopstales.svg') }}" width="30" height="30" class="d-inline-block align-top" alt="">
+        Kubectl OIDC Auth
+      </a>
     
       <form class="form-inline my-2 my-lg-0">
         <button class="btn btn-outline-light my-2 my-sm-0" type="submit" formaction="/logout">Logout</button>
@@ -30,7 +33,10 @@
 
     <ul class="nav nav-tabs mb-4 mx-5">
       <li class="nav-item">
-        <a class="nav-link active" href="#list-item-1">Kubectl Plugin</a>
+        <a class="nav-link active" href="#list-item-0">Kubernetes ApiServer</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#list-item-1">Kubectl Plugin</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#list-item-2">Download Kubeconfig</a>
@@ -44,21 +50,38 @@
     </ul>
 
     <div data-spy="scroll" data-target="#list" data-offset="0" class="scrollspy"></div>
+
+    <div class="card mb-4 mx-5">
+      <h5 class="card-header" id="list-item-0">Kubernetes ApiServer</h5>
+      <div class="card-body">
+        <h5 class="card-title">Kubernetes ApiServer integration with OpeniD prodiver</h5><pre><code>nano /etc/kubernetes/manifests/kube-apiserver.yaml
+...
+command:
+- /hyperkube
+- apiserver
+...
+- --oidc-issuer-url={{ oauth_server_uri }}
+- --oidc-client-id={{ client_id }}
+- --oidc-username-claim=email
+- --oidc-groups-claim=groups
+# for self sign cert or custom ca
+#- --oidc-ca-file=/etc/kubernetes/pki/rootca.pem
+...
+
+systemctl restart kubelet</code></pre>
+      </div>
+    </div>
+
       <div class="card mb-4 mx-5">
         <h5 class="card-header" id="list-item-1">Kubectl Plugin</h5>
         <div class="card-body">
           <h5 class="card-title">Install as Kubectl plugin.</h5><pre><code># Homebrew (macOS and Linux)
-brew install devopstales/oauth-login
-
-# Krew (macOS, Linux, Windows and ARM)
-kubectl krew install oauth-login
-
-# Chocolatey (Windows)
-choco install oauth-login</code></pre>
+brew tap devopstales/devopstales
+brew install kubectl-login</code></pre>
           <h5 class="card-title">Use the plugin.</h5>
           <pre><code class="bash">$ kubectl login {{ redirect_uri }}
-Write config for {{ context }} to ~/.kube/config
-(Press CTRL+C to quit)</code></pre>
+Configfile created with config for productioncluster to ~/.kube/config
+Happy Kubernetes interaction!</code></pre>
         </div>
       </div>
 
@@ -124,3 +147,11 @@ kubectl config use-context {{ context }}</code></pre>
   </body>
 
 </html>
+
+{#
+  # Krew (macOS, Linux, Windows and ARM)
+  kubectl krew install oauth-login
+  
+  # Chocolatey (Windows)
+  choco install kubectl-login  
+#}

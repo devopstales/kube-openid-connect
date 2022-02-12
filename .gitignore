@@ -7,10 +7,14 @@ __pycache__/
 build/
 dist/
 test*
-docker/static/
-docker/templates/
-docker/*.py
-pyinstaller/__pycache__/
-pyinstaller/dist/
-pyinstaller/*.py
-!pyinstaller/kubectl-login.spec
+
+# server
+server/docker/static/
+server/docker/templates/
+server/docker/*.py
+
+# py-client
+py-client/pyinstaller/__pycache__/
+py-client/pyinstaller/dist/
+py-client/pyinstaller/*.py
+py-client/!pyinstaller/kubectl-login.spec

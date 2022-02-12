@@ -69,38 +69,8 @@ def callback():
 
     # print ('%s' % userinfo) # debug
 
-    kube_user = {
-        "auth-provider": {
-            "name": "oidc",
-            "config": {
-                "client-id": client_id,
-                "idp-issuer-url": oauth_server_uri,
-                "id-token": token["id_token"],
-                "refresh-token": token.get("refresh_token"),
-            }
-        }
-    }
-    if client_secret:
-        kube_user["auth-provider"]["config"]["client-secret"] = client_secret
-    if verify:
-        kube_user["auth-provider"]["config"]["idp-certificate-authority"] = verify
-
-    kube_cluster = {
-        "certificate-authority-data": base64_k8s_server_ca,
-        "server": k8s_server_url
-    }
-
-    kube_context = {
-        "cluster": context,
-        "user": context,
-    }
-
-    user_config_snippet = {"name": context, "user": kube_user}
-    cluster_config_snippet = {"name": context, "cluster": kube_cluster}
-    context_config_snippet = {"name": context, "context": kube_context}
-
-    #print(yaml.safe_dump(user_config_snippet)) # debug
-
+    #if verify:
+    #    kube_user["auth-provider"]["config"]["idp-certificate-authority"] = verify
     
     if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
         remote_addr = request.remote_addr
@@ -110,12 +80,17 @@ def callback():
 
     try:
         x = requests.post('http://%s:8080/' % remote_addr, json={
-            "kube_user": user_config_snippet,
-            "kube_cluster": cluster_config_snippet,
-            "kube_context": context_config_snippet,
-            "context": context
+            "context": context,
+            "server": k8s_server_url,
+            "certificate-authority-data": k8s_server_ca,
+            "client-id": client_id,
+            "id-token": token["id_token"],
+            "refresh-token": token.get("refresh_token"),
+            "idp-issuer-url": oauth_server_uri,
+            "client_secret": client_secret,
             }
         )        
+        app.logger.info("Send to client:")
         app.logger.info(x.text)
     except:
         app.logger.error ("Kubectl print back error")

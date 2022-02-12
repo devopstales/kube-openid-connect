@@ -1,0 +1,7 @@
+pyyaml
+flask
+waitress
+flask_cors
+itsdangerous
+validators
+#pyinstaller==4.9
