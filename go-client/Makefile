@@ -9,7 +9,10 @@ all:    build
 current_dir = $(shell pwd)
 
 build:
-	echo "build client"
+	rm -rf dist
+	go build -o dist/linux/kubectl-login main.go
+	env GOOS=darwin GOARCH=amd64 go build -o dist/osx/kubectl-login main.go
+	env GOOS=windows GOARCH=amd64 go build -o dist/windows/kubectl-login.exe main.go
 
 release:
 	echo "release client"

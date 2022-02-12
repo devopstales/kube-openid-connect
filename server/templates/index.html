@@ -77,17 +77,11 @@ systemctl restart kubelet</code></pre>
         <div class="card-body">
           <h5 class="card-title">Install as Kubectl plugin.</h5><pre><code># Homebrew (macOS and Linux)
 brew tap devopstales/devopstales
-brew install kubectl-login
-
-# Krew (macOS, Linux, Windows and ARM)
-kubectl krew install oauth-login
-
-# Chocolatey (Windows)
-choco install kubectl-login</code></pre>
+brew install kubectl-login</code></pre>
           <h5 class="card-title">Use the plugin.</h5>
           <pre><code class="bash">$ kubectl login {{ redirect_uri }}
-Write config for {{ context }} to ~/.kube/config
-(Press CTRL+C to quit)</code></pre>
+Configfile created with config for productioncluster to ~/.kube/config
+Happy Kubernetes interaction!</code></pre>
         </div>
       </div>
 
@@ -153,3 +147,11 @@ kubectl config use-context {{ context }}</code></pre>
   </body>
 
 </html>
+
+{#
+  # Krew (macOS, Linux, Windows and ARM)
+  kubectl krew install oauth-login
+  
+  # Chocolatey (Windows)
+  choco install kubectl-login  
+#}

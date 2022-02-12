@@ -3,6 +3,7 @@ export RELEASE=v0.1
 
 .PHONY: all
 all:    version
+dev:    devel-delete devel
 
 .DEFAULT_GOAL := all
 
@@ -10,18 +11,9 @@ current_dir = $(shell pwd)
 
 devel-delete:
 	kim image rm devopstales/kube-openid-connector:$(VERSION)-devel
-#	rm -f  docker/server.py
-#	rm -rf docker/templates
-#	rm -rf docker/static
 
 devel:
-	cp server.py    docker/
-	cp -r templates docker/
-	cp -r static    docker/
-	kim build --tag devopstales/kube-openid-connector:$(VERSION)-devel docker/
-	rm -f  docker/server.py
-#	rm -rf docker/templates
-#	rm -rf docker/static
+	kim build --tag devopstales/kube-openid-connector:$(VERSION)-devel .
 
 version:
 	cp server.py docker/
