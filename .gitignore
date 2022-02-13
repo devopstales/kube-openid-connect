@@ -4,8 +4,11 @@ __pycache__/
 *.spec
 *.tar.gz
 *.zip
+*.nupkg
 build/
-dist/
+linux/
+osx/
+windows/
 test*
 
 # server
