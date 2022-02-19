@@ -14,7 +14,7 @@
     <bugTrackerUrl>https://github.com/devopstales/kube-openid-connect/issues</bugTrackerUrl>
     <tags>kubectl-login SPACE_SEPARATED</tags>
     <summary>#version#</summary>
-    <description>kubectl-login is a kubectl plugin that can be used to easily enable authentication flows via OIDC for a kubernetes cluster. Usage: kubectl login https://kubectl_login_server_url </description>
+    <description>kubectl-login is a kubectl plugin that can be used to easily enable authentication flows via OIDC for a kubernetes cluster. Usage: kubectl login kubectl_login_server_url </description>
     <releaseNotes>https://github.com/devopstales/kube-openid-connect/releases/tag/client_v#version#</releaseNotes>
   </metadata>
   <files>
