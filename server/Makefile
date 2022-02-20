@@ -5,9 +5,14 @@ export RELEASE=v0.1
 all:    version
 dev:    devel-delete devel
 
-.DEFAULT_GOAL := all
+.DEFAULT_GOAL := help
 
 current_dir = $(shell pwd)
+
+#help:	@ List available tasks on this project
+help:
+	@grep -E '[a-zA-Z\.\-]+:.*?@ .*$$' $(MAKEFILE_LIST)| tr -d '#'  | awk 'BEGIN {FS = ":.*?@ "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
 
 devel-delete:
 	kim image rm devopstales/kube-openid-connector:$(VERSION)-devel

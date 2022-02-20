@@ -4,9 +4,13 @@ export RELEASE=v0.1
 .PHONY: all
 all:    build
 
-.DEFAULT_GOAL := all
+.DEFAULT_GOAL := help
 
 current_dir = $(shell pwd)
+
+#help:	@ List available tasks on this project
+help:
+    @grep -E '[a-zA-Z\.\-]+:.*?@ .*$$' $(MAKEFILE_LIST)| tr -d '#'  | awk 'BEGIN {FS = ":.*?@ "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 build:
 	cp kubectl-login.py pyinstaller/kubectl-login.py
