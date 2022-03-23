@@ -3,7 +3,7 @@
   <metadata>
     <id>kubectl-login</id>
     <version>#version#</version>
-    <packageSourceUrl>https://github.com/devopstales/kube-openid-connect/tree/main/go-client/dist/choco/packageSourceUrl>
+    <packageSourceUrl>https://github.com/devopstales/kube-openid-connect/tree/main/go-client/dist/choco/</packageSourceUrl>
     <owners>devopstales</owners>
     <title>kubectl-login (CLI)</title>
     <authors>devopstales</authors>
