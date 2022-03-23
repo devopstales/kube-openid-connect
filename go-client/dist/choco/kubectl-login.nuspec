@@ -3,7 +3,7 @@
   <metadata>
     <id>kubectl-login</id>
     <version>#version#</version>
-    <packageSourceUrl>https://github.com/devopstales/kube-openid-connect</packageSourceUrl>
+    <packageSourceUrl>https://github.com/devopstales/kube-openid-connect/go-client/dist/choco</packageSourceUrl>
     <owners>devopstales</owners>
     <title>kubectl-login (CLI)</title>
     <authors>devopstales</authors>
@@ -13,7 +13,7 @@
     <licenseUrl>https://github.com/devopstales/kube-openid-connect/blob/main/LICENSE</licenseUrl>
     <bugTrackerUrl>https://github.com/devopstales/kube-openid-connect/issues</bugTrackerUrl>
     <tags>kubectl-login kubernetes kubelogin authentication oidc cli foss cross-platform</tags>
-    <summary>#version#</summary>
+    <summary>Kubernetes OIDC authentication</summary>
     <description>kubectl-login is a kubectl plugin that can be used to easily enable authentication flows via OIDC for a kubernetes cluster. Usage: ```kubectl login kubectl_login_server_url``` </description>
     <releaseNotes>https://github.com/devopstales/kube-openid-connect/releases/tag/client_v#version#</releaseNotes>
   </metadata>
