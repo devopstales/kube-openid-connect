@@ -1,4 +1,4 @@
-from flask import Flask, session, redirect, session, request, render_template, Response
+from flask import Flask, session, redirect, session, request, render_template, Response, jsonify
 import os
 
 from itsdangerous import base64_decode
@@ -6,10 +6,17 @@ from requests_oauthlib import OAuth2Session
 import yaml
 import requests
 
+
+# the cli client use http not https
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+import warnings
+warnings.filterwarnings('ignore', message='Unverified HTTPS request')
+
 oauth_server_uri = os.getenv("OAUTH_URI")
 client_id = os.getenv("OAUTH_CLIENT_ID")
 client_secret = os.getenv("OAUTH_CLIENT_SECRET")
 redirect_uri = os.getenv("OAUTH_REDIRECT_URI", "http://localhost:5000/callback")
+out_url =  os.getenv("OAUTH_OUT_URI", "https://devopstales.github.io")
 verify = os.getenv("OAUTH_CA_BUNDLE", False)
 context = os.getenv("K8S_CONTEXT")
 base64_k8s_server_ca = os.getenv("K8S_SERVER_CA")
@@ -52,6 +59,8 @@ def callback():
     token_url = auth_server_info["token_endpoint"]
     userinfo_url = auth_server_info["userinfo_endpoint"]
 
+    # print ('%s' % token_url) # debug
+
     token = oauth.fetch_token(
         token_url,
         authorization_response=request.url,
@@ -90,8 +99,8 @@ def callback():
             "client_secret": client_secret,
             }
         )        
-        app.logger.info("Send to client:")
-        app.logger.info(x.text)
+        app.logger.info("Config sent to client")
+        app.logger.info("Answer from clinet: %s" % x.text)
     except:
         app.logger.error ("Kubectl print back error")
 
@@ -190,15 +199,25 @@ def get_file():
 @app.route('/logout')
 def logout():
     logout_url = auth_server_info["end_session_endpoint"]
-    hosturl = 'http%3A%2F%2Flocalhost%3A5000%2F'
     session.pop('oauth_token')
 
     return redirect(
-        logout_url + '?redirect_uri=' + hosturl)
+        logout_url + '?redirect_uri=' + out_url
+    )
+
+@app.route('/health')
+def health():    
+    resp = jsonify(health="healthy")
+    resp.status_code = 200
+    return resp
 
 if __name__ == '__main__':
-    os.environ['DEBUG'] = '1'
-    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
     # app.secret_key = os.urandom(24)
     app.secret_key = 'development'
-    app.run(host='0.0.0.0', port=5000,debug=True, use_reloader=False)
+
+    env = os.environ['DEBUG']
+    #cli.show_server_banner = lambda *_: None
+    if bool(env) == True:
+        app.run(host='0.0.0.0', port=5000,debug=True, use_reloader=False)
+    else:
+        app.run(host='0.0.0.0', port=5000,debug=False, use_reloader=False)

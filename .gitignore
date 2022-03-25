@@ -15,6 +15,7 @@ test*
 server/docker/static/
 server/docker/templates/
 server/docker/*.py
+server/values.yaml
 
 # py-client
 py-client/pyinstaller/__pycache__/

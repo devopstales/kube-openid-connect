@@ -14,6 +14,7 @@ help:
 
 #build: @ Build binaris with go
 build:
+	sed -i '' -e "s|AppVersion = .*|AppVersion = \"${VERSION}\"|" main.go
 	rm -rf dist/{windows,linux,osx,release}
 	go build -o dist/linux/kubectl-login main.go
 	env GOOS=darwin GOARCH=amd64 go build -o dist/osx/kubectl-login main.go

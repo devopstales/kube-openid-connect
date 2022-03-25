@@ -54,7 +54,7 @@
     <div class="card mb-4 mx-5">
       <h5 class="card-header" id="list-item-0">Kubernetes ApiServer</h5>
       <div class="card-body">
-        <h5 class="card-title">Kubernetes ApiServer integration with OpeniD prodiver</h5><pre><code>nano /etc/kubernetes/manifests/kube-apiserver.yaml
+        <h5 class="card-title">Kubernetes ApiServer integration with OpeniD provider</h5><pre><code>nano /etc/kubernetes/manifests/kube-apiserver.yaml
 ...
 command:
 - /hyperkube
@@ -83,7 +83,10 @@ brew install kubectl-login
 kubectl krew install openid-connect
 
 # Chocolatey (Windows)
-choco install kubectl-login</code></pre>
+choco install kubectl-login
+
+# Binary release (Windows, macOS and Linux)
+https://github.com/devopstales/kube-openid-connect/releases</code></pre>
           <h5 class="card-title">Use the plugin.</h5>
           <pre><code class="bash">$ kubectl login {{ redirect_uri }}
 Configfile created with config for productioncluster to ~/.kube/config

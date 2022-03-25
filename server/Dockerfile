@@ -14,5 +14,5 @@ RUN chown -R 10001:10001 /opt
 
 USER 10001:10001
 
-CMD python3 /opt/server.py --log-format=full
+CMD python3 /opt/server.py
 

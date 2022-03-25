@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -9,6 +10,11 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+
+	"context"
+	"net/http"
+	"os/signal"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	pkgruntime "k8s.io/apimachinery/pkg/runtime"
@@ -20,8 +26,9 @@ import (
 )
 
 const (
-	kubeConfigEnvName         = "KUBECONFIG2"
+	kubeConfigEnvName         = "KUBECONFIG"
 	kubeConfigDefaultFilename = "~/.kube/config"
+	AppVersion = "0.2"
 )
 
 type request struct {
@@ -36,6 +43,13 @@ type request struct {
 }
 
 func main() {
+	// Print version
+	version := flag.Bool("v", false, "prints current app version")
+	flag.Parse()
+	if *version {
+		fmt.Println(AppVersion)
+		os.Exit(0)
+	}
 	// Get and validate the argument
 	if len(os.Args) == 2 {
 		if isValidUrl(os.Args[1]) {
@@ -53,7 +67,30 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
 	router.POST("/", callback)
-	router.Run(":8080")
+	//router.Run(":8080")
+	////////////////////////////////////////
+
+	srv := &http.Server{
+		Addr:    ":8080",
+		Handler: router,
+	}
+
+	go func() {
+		// service connections
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("listen: %s\n", err)
+		}
+	}()
+
+	quit := make(chan os.Signal)
+	signal.Notify(quit, os.Interrupt)
+	<-quit
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Fatal("Server Shutdown:", err)
+	}
 }
 
 func isValidUrl(toTest string) bool {
@@ -99,8 +136,6 @@ func callback(c *gin.Context) {
 	// Debug
 	c.BindJSON(&request)
 	// fmt.Println(string(request.Context)) // Debug
-
-	c.JSON(200, "Client Get Data")
 
 	// Read config
 	var fileExist bool
@@ -166,8 +201,8 @@ func callback(c *gin.Context) {
 		// Write to file
 		WriteToFile(string(output), context)
 	}
-
-	os.Exit(0)
+	c.JSON(200, "Client Get Data")
+	return
 }
 
 func GetKubeConfig() (bool, string) {
@@ -287,4 +322,5 @@ func WriteToFile(content string, context string) {
 	}
 	fmt.Printf("Configfile created with config for %s to %s\n", context, filename)
 	fmt.Println("Happy Kubernetes interaction!")
+	fmt.Println("(Press CTRL+C to quit)")
 }
