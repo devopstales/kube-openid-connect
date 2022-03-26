@@ -1,6 +1,6 @@
 ### Kube OpenID Connect
 
-Kube OpenID Connect is an application that can be used to easily enable authentication flows via OIDC for a kubernetes cluster. Kubernetes supports [OpenID Connect Tokens](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens) as a way to identify users who access the cluster. Kube OpenID Connect helps users with it's plugin to authenticate an get `kubectl` config.
+Kube OpenID Connect is an application that can be used to easily enable authentication flows via OIDC for a kubernetes cluster. Kubernetes supports [OpenID Connect Tokens](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens) as a way to identify users who access the cluster. Kube OpenID Connect helps users with it's `kubectl` plugin to authenticate and get `kubectl` config.
 
 ![Kube OpenID Connect screenshot](docs/images/screenshot.png)
 
