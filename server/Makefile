@@ -1,4 +1,4 @@
-export VERSION=0.2
+export VERSION=1.0
 
 .PHONY: all
 all:    version
@@ -29,20 +29,28 @@ push-devel:
 
 #version: @ Build versiond docker image
 version:
-	docker build -t devopstales/kube-openid-connector:$(VERSION) .
-#	docker build -t devopstales/kube-openid-connector:$(VERSION)-arm32v7 --build-arg ARCH=arm32v7/ .
+	docker build -t devopstales/kube-openid-connector:$(VERSION)-amd64 --build-arg ARCH=amd64/ .
 	docker build -t devopstales/kube-openid-connector:$(VERSION)-arm64v8 --build-arg ARCH=arm64v8/ .
+#       docker build -t devopstales/kube-openid-connector:$(VERSION)-arm32v7 --build-arg ARCH=arm32v7/ .
+
 
 #push-version: @ Docker push version image
 push-version:
-#	docker push devopstales/kube-openid-connector:$(VERSION)-arm32v7
 	docker push devopstales/kube-openid-connector:$(VERSION)-arm64v8
-	docker push devopstales/kube-openid-connector:$(VERSION)
+	docker push devopstales/kube-openid-connector:$(VERSION)-amd64
+	docker manifest create devopstales/kube-openid-connector:$(VERSION) \
+		--amend devopstales/kube-openid-connector:$(VERSION)-amd64 \
+		--amend devopstales/kube-openid-connector:$(VERSION)-arm64v8
+	docker manifest push devopstales/kube-openid-connector:$(VERSION)
+
+#       docker push devopstales/kube-openid-connector:$(VERSION)-arm32v7
+#               --amend devopstales/kube-openid-connector:$(VERSION)-arm32v7 \
 
 #push-latest: @ Docker push version image as latest tag
 push-latest:
 	docker manifest create devopstales/kube-openid-connector:latest \
-		--amend devopstales/kube-openid-connector:$(VERSION) \
+		--amend devopstales/kube-openid-connector:$(VERSION)-amd64 \
 		--amend devopstales/kube-openid-connector:$(VERSION)-arm64v8
 	docker manifest push devopstales/kube-openid-connector:latest
+
 #		--amend devopstales/kube-openid-connector:$(VERSION)-arm32v7 \

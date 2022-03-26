@@ -1,7 +1,7 @@
 ARG ARCH
 FROM ${ARCH}python:3.8-alpine
 
-RUN pip3 install flask requests_oauthlib requests waitress flask_cors pyyaml
+RUN pip3 install flask requests_oauthlib requests flask_cors
 
 ADD server.py /opt/server.py
 ADD templates /opt/templates
