@@ -1,5 +1,5 @@
 SHELL:=/bin/bash
-export VERSION=0.2
+export VERSION=1.0
 
 .PHONY: all
 all:    build
@@ -14,7 +14,7 @@ help:
 
 #build: @ Build binaris with go
 build:
-	sed -i '' -e "s|AppVersion = .*|AppVersion = \"${VERSION}\"|" main.go
+	sed -i "s|AppVersion = .*|AppVersion = \"${VERSION}\"|" main.go
 	rm -rf dist/{windows,linux,osx,release}
 	go build -o dist/linux/kubectl-login main.go
 	env GOOS=darwin GOARCH=amd64 go build -o dist/osx/kubectl-login main.go
@@ -67,6 +67,7 @@ release:
 	@echo "🤖 CD bot is Releasing to GitHub"
 	gh release create client_v${VERSION} --generate-notes ./dist/release/*
 
+#	@echo "⬆️ Push: Choco"
 #	docker run -v `pwd`/dist/choco/:/src -w /src -it --rm  linuturk/mono-choco push kubectl-login.${VERSION}.nupkg --key ${CHOCO_TOKEN} --source https://push.chocolatey.org/
 
 	@echo "⬇️ Git checkout: homebrew-devopstales"

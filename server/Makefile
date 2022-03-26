@@ -54,3 +54,8 @@ push-latest:
 	docker manifest push devopstales/kube-openid-connector:latest
 
 #		--amend devopstales/kube-openid-connector:$(VERSION)-arm32v7 \
+
+#release: @ Create Github release for server
+release:
+	@echo "🤖 CD bot is Releasing to GitHub"
+	gh release create server_v${VERSION} --generate-notes
