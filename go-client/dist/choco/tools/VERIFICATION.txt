@@ -8,7 +8,7 @@ location on <https://github.com/devopstales/kube-openid-connect/releases/latest>
 and can be verified by doing the following:
 
 1. Download the following:
-  64-bit software: <https://github.com/devopstales/kube-openid-connect/releases/download/client_v#version#/kubectl-login_windows.zip>
+  64-bit software: <https://github.com/devopstales/kube-openid-connect/releases/download/client_v1.0/kubectl-login_windows.zip>
 
 2. Get the checksum using one of the following methods:
   - Using powershell function 'Get-FileHash'
@@ -17,6 +17,6 @@ and can be verified by doing the following:
 3. The checksums should match the following:
 
   checksum type: sha256
-  checksum64: #checksum#
+  checksum64: 54d49a39e690b794fea0736139b0d4e9c4533e2f2de155264aa4c5bac9b112d8
 
 File 'LICENSE.txt' is obtained from <https://github.com/devopstales/kube-openid-connect/blob/main/LICENSEll>

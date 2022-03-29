@@ -70,9 +70,6 @@ release:
 	@echo "🤖 CD bot is Releasing to GitHub"
 	gh release create client_v${VERSION} --generate-notes ./dist/release/*
 
-#	@echo "⬆️ Push: Choco"
-#	docker run -v `pwd`/dist/choco/:/src -w /src -it --rm  linuturk/mono-choco push kubectl-login.${VERSION}.nupkg --key ${CHOCO_TOKEN} --source https://push.chocolatey.org/
-
 	@echo "⬇️ Git checkout: homebrew-devopstales"
 	git clone git@github.com:devopstales/homebrew-devopstales.git; \
 	cd homebrew-devopstales; \
@@ -110,3 +107,7 @@ release:
 	git stash -- dist/krew/openid-connect.yaml
 	@echo "🚀 Packages are deployed! 🎉"
 
+#release-choco: @ Publish choco package
+release-choco:
+	@echo "⬆️ Push: Choco"
+	docker run -v `pwd`/dist/choco/:/src -w /src -it --rm  linuturk/mono-choco push kubectl-login.${VERSION}.nupkg --key ${CHOCO_TOKEN} --source https://push.chocolatey.org/
