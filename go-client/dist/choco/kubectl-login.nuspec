@@ -8,7 +8,7 @@
     <title>kubectl-login (CLI)</title>
     <authors>devopstales</authors>
     <projectUrl>https://devopstales.github.io</projectUrl>
-    <iconUrl>http://cdn.rawgit.com/devopstales/helm-charts/master/icons/kubectl-login.png</iconUrl>
+    <iconUrl>https://cdn.jsdelivr.net/gh/devopstales/helm-charts@master/icons/kubectl-login.png</iconUrl>
     <copyright>2022 devopstales</copyright>
     <licenseUrl>https://github.com/devopstales/kube-openid-connect/blob/main/LICENSE</licenseUrl>
     <bugTrackerUrl>https://github.com/devopstales/kube-openid-connect/issues</bugTrackerUrl>
