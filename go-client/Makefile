@@ -26,8 +26,9 @@ package:
 	mkdir -p dist/release
 
 	cd dist/linux; \
+	cp ../../../LICENSE .; \
 	chmod +x kubectl-login; \
-	tar -czf kubectl-login_linux.tar.gz kubectl-login; \
+	tar -czf kubectl-login_linux.tar.gz kubectl-login LICENSE; \
 	sha256sum kubectl-login_linux.tar.gz > kubectl-login_linux.tar.gz.sha256
 
 	CHECKSUM=$$(sha256sum dist/linux/kubectl-login_linux.tar.gz | cut -d ' ' -f1); \
@@ -37,8 +38,9 @@ package:
 	sed -i "s/#version#/${VERSION}/" dist/krew/openid-connect.yaml;
 
 	cd dist/osx; \
+        cp ../../../LICENSE .; \
 	chmod +x kubectl-login; \
-	tar -czf kubectl-login_osx.tar.gz kubectl-login; \
+	tar -czf kubectl-login_osx.tar.gz kubectl-login LICENSE; \
 	sha256sum kubectl-login_osx.tar.gz > kubectl-login_osx.tar.gz.sha256
 
 	CHECKSUM=$$(sha256sum dist/osx/kubectl-login_osx.tar.gz | cut -d ' ' -f1); \
@@ -46,7 +48,8 @@ package:
 	sed -i "s/#checksum_osx#/$$CHECKSUM/" dist/krew/openid-connect.yaml
 
 	cd dist/windows; \
-	zip kubectl-login_windows.zip kubectl-login.exe; \
+        cp ../../../LICENSE .; \
+	zip kubectl-login_windows.zip kubectl-login.exe LICENSE; \
 	sha256sum kubectl-login_windows.zip > kubectl-login_windows.zip.sha256
 
 	CHECKSUM=$$(sha256sum dist/windows/kubectl-login_windows.zip | cut -d ' ' -f1); \
