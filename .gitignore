@@ -24,7 +24,5 @@ py-client/pyinstaller/*.py
 py-client/!pyinstaller/kubectl-login.spec
 
 # go-client
-go-client/dist/release/
-go-client/homebrew-devopstales/
-go-client/krew-index/
+go-client/dist
 
