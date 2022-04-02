@@ -98,6 +98,18 @@ release:
 	git push
 	@echo "⬆️ Git push: krew-index"
 
+	@echo "⬇️ Git checkout: krew"
+	git clone git@github.com:devopstales/krew.git; \
+	cd krew/plugins; \
+	git config user.name "devopstales"; \
+	git config user.email "42894256+devopstales@users.noreply.github.com"; \
+	rm -f login.yaml; \
+	cp ../../dist/krew/login.yaml .; \
+	git add login.yaml; \
+	git commit -m "release ${VERSION}"; \
+	git push
+	@echo "⬆️ Git push: krew"
+
 	@echo "🗑️ Cleaning repositoris"
 	rm -rf dist/{windows,linux,osx,release}
 	rm -f  dist/choco/kubectl-login.*.nupkg

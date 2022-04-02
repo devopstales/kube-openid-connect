@@ -79,8 +79,12 @@ systemctl restart kubelet</code></pre>
 brew tap devopstales/devopstales
 brew install kubectl-login
 
-# Krew (macOS, Linux, Windows and ARM)
+# Main Krew with differente name (macOS, Linux, Windows and ARM)
 kubectl krew install openid-connect
+
+# My krew repo (macOS, Linux, Windows and ARM)
+kubectl krew index add devopstales https://github.com/devopstales/krew
+kubectl krew install devopstales/login
 
 # Chocolatey (Windows)
 choco install kubectl-login
@@ -89,6 +93,8 @@ choco install kubectl-login
 https://github.com/devopstales/kube-openid-connect/releases</code></pre>
           <h5 class="card-title">Use the plugin.</h5>
           <pre><code class="bash">$ kubectl login {{ redirect_uri }}
+# OR I sou installed from main Krew
+kubectl openid-connect {{ redirect_uri }}
 Configfile created with config for productioncluster to ~/.kube/config
 Happy Kubernetes interaction!</code></pre>
         </div>
