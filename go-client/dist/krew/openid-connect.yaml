@@ -3,7 +3,7 @@ kind: Plugin
 metadata:
   name: openid-connect
 spec:
-  version: v1.0.0
+  version: v#version#.0
   homepage: https://github.com/devopstales/kube-openid-connect
   shortDescription: Login to a cluster via openid-connect
   description: |
@@ -39,22 +39,22 @@ spec:
     3) You need to setup role binding for users or groupe.
   platforms:
   - bin: kubectl-login
-    uri: https://github.com/devopstales/kube-openid-connect/releases/download/client_v1.0/kubectl-login_linux.tar.gz
-    sha256: cc760ca6fd80d215e5b42a6f5c38a4dcb38707a8fc7b4ee336cd9204e3b4f2f6
+    uri: https://github.com/devopstales/kube-openid-connect/releases/download/client_v#version#/kubectl-login_linux.tar.gz
+    sha256: #checksum_linux#
     selector:
       matchLabels:
         os: linux
         arch: amd64
   - bin: kubectl-login
-    uri: https://github.com/devopstales/kube-openid-connect/releases/download/client_v1.0/kubectl-login_osx.tar.gz
-    sha256: c96dda6c7135dfb58a3b72fec7aea29a090f13780b45bf2bcc8368451887fc9f
+    uri: https://github.com/devopstales/kube-openid-connect/releases/download/client_v#version#/kubectl-login_osx.tar.gz
+    sha256: #checksum_osx#
     selector:
       matchLabels:
         os: darwin
         arch: arm64
   - bin: kubectl-login.exe
-    uri: https://github.com/devopstales/kube-openid-connect/releases/download/client_v1.0/kubectl-login_windows.zip
-    sha256: 54d49a39e690b794fea0736139b0d4e9c4533e2f2de155264aa4c5bac9b112d8
+    uri: https://github.com/devopstales/kube-openid-connect/releases/download/client_v#version#/kubectl-login_windows.zip
+    sha256: #checksum_windows#
     selector:
       matchLabels:
         os: windows
