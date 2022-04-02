@@ -24,6 +24,7 @@ py-client/pyinstaller/*.py
 py-client/!pyinstaller/kubectl-login.spec
 
 # go-client
+go-client/dist/
 go-client/dist/release/
 go-client/dist/choco/
 go-client/dist/homebrew/
