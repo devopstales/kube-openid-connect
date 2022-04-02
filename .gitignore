@@ -24,15 +24,11 @@ py-client/pyinstaller/*.py
 py-client/!pyinstaller/kubectl-login.spec
 
 # go-client
-go-client/dist/
 go-client/dist/release/
 go-client/dist/choco/
 go-client/dist/homebrew/
 go-client/dist/krew-main/
 go-client/dist/krew/
-go-client/dist/linux/
-go-client/dist/osx/
-go-client/dist/windows/
 go-client/homebrew-devopstales/
 go-client/krew-index/
 go-client/krew/

@@ -34,8 +34,10 @@ package:
 	CHECKSUM=$$(sha256sum dist/linux/kubectl-login_linux.tar.gz | cut -d ' ' -f1); \
 	sed -i "s/#checksum_linux#/$$CHECKSUM/" dist/homebrew/kubectl-login.rb; \
 	sed -i "s/#version#/${VERSION}/" dist/homebrew/kubectl-login.rb; \
-	sed -i "s/#checksum_linux#/$$CHECKSUM/" dist/krew/openid-connect.yaml; \
-	sed -i "s/#version#/${VERSION}/" dist/krew/openid-connect.yaml;
+	sed -i "s/#checksum_linux#/$$CHECKSUM/" dist/krew-main/openid-connect.yaml; \
+	sed -i "s/#version#/${VERSION}/" dist/krew-main/openid-connect.yaml; \
+	sed -i "s/#checksum_linux#/$$CHECKSUM/" dist/krew/login.yaml; \
+	sed -i "s/#version#/${VERSION}/" dist/krew/login.yaml;
 
 	cd dist/osx; \
         cp ../../../LICENSE .; \
@@ -45,7 +47,8 @@ package:
 
 	CHECKSUM=$$(sha256sum dist/osx/kubectl-login_osx.tar.gz | cut -d ' ' -f1); \
 	sed -i "s/#checksum_osx#/$$CHECKSUM/" dist/homebrew/kubectl-login.rb; \
-	sed -i "s/#checksum_osx#/$$CHECKSUM/" dist/krew/openid-connect.yaml
+	sed -i "s/#checksum_osx#/$$CHECKSUM/" dist/krew-main/openid-connect.yaml; \
+	sed -i "s/#checksum_osx#/$$CHECKSUM/" dist/krew/login.yaml
 
 	cd dist/windows; \
         cp ../../../LICENSE .; \
@@ -53,7 +56,8 @@ package:
 	sha256sum kubectl-login_windows.zip > kubectl-login_windows.zip.sha256
 
 	CHECKSUM=$$(sha256sum dist/windows/kubectl-login_windows.zip | cut -d ' ' -f1); \
-	sed -i "s/#checksum_windows#/$$CHECKSUM/" dist/krew/openid-connect.yaml; \
+	sed -i "s/#checksum_windows#/$$CHECKSUM/" dist/krew-main/openid-connect.yaml; \
+	sed -i "s/#checksum_windows#/$$CHECKSUM/" dist/krew/login.yaml; \
 	sed -i "s/#checksum#/$$CHECKSUM/" dist/choco/tools/VERIFICATION.txt; \
 	sed -i "s/#version#/${VERSION}/" dist/choco/tools/VERIFICATION.txt; \
 	sed -i "s/#version#/${VERSION}/" dist/choco/kubectl-login.nuspec
@@ -88,7 +92,7 @@ release:
 	git config user.name "devopstales"; \
 	git config user.email "42894256+devopstales@users.noreply.github.com"; \
 	rm -f openid-connect.yaml; \
-	cp ../../dist/krew/openid-connect.yaml .; \
+	cp ../../dist/krew-main/openid-connect.yaml .; \
 	git add openid-connect.yaml; \
 	git commit -m "release ${VERSION}"; \
 	git push
@@ -104,7 +108,7 @@ release:
 	git stash -- dist/choco/kubectl-login.nuspec
 	git stash -- dist/choco/tools/VERIFICATION.txt
 	git stash -- dist/homebrew/kubectl-login.rb
-	git stash -- dist/krew/openid-connect.yaml
+	git stash -- dist/krew-main/openid-connect.yaml
 	@echo "🚀 Packages are deployed! 🎉"
 
 #release-choco: @ Publish choco package

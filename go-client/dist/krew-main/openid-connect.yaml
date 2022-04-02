@@ -10,7 +10,7 @@ spec:
     Launches a browser to login to the cluster via openid-connect. openid-connect's 
     certificate MUST be trusted by the local system.
 
-    Run `kubectl login <openid-connect-ingress-url>`.
+    Run `kubectl openid-connect <openid-connect-ingress-url>`.
     It automatically opens the browser and you can log in to the provider.
     After authentication, it writes the token to the kubeconfig and you can access the cluster.
   caveats: |
