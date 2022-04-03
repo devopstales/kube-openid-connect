@@ -1,4 +1,4 @@
-export VERSION=1.0
+export VERSION=1.1
 
 .PHONY: all
 all:    version
@@ -23,8 +23,8 @@ local: local-delete
 devel:
 	docker build -t devopstales/kube-openid-connector:$(VERSION)-devel .
 
-#push-devel: @ Docker push devel image
-push-devel:
+#devel-push: @ Docker push devel image
+devel-push:
 	docker push devopstales/kube-openid-connector:$(VERSION)-devel
 
 #version: @ Build versiond docker image
@@ -34,8 +34,8 @@ version:
 #       docker build -t devopstales/kube-openid-connector:$(VERSION)-arm32v7 --build-arg ARCH=arm32v7/ .
 
 
-#push-version: @ Docker push version image
-push-version:
+#version-push: @ Docker push version image
+version-push:
 	docker push devopstales/kube-openid-connector:$(VERSION)-arm64v8
 	docker push devopstales/kube-openid-connector:$(VERSION)-amd64
 	docker manifest create devopstales/kube-openid-connector:$(VERSION) \
