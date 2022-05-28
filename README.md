@@ -28,8 +28,16 @@ helm upgrade --install kubelogin devopstales/kube-openid-connect -f values.yaml
 brew tap devopstales/devopstales
 brew install kubectl-login
 
-# Krew (macOS, Linux, Windows and ARM)
-kubectl krew install openid-connect
+# Main Krew with differente name (macOS, Linux, Windows and ARM)
+kubectl krew install dtlogin
+
+# My krew repo (macOS, Linux, Windows and ARM)
+kubectl krew index add devopstales https://github.com/devopstales/krew
+kubectl krew install devopstales/login
+
+# My krew repo (macOS, Linux, Windows and ARM)
+kubectl krew index add devopstales https://github.com/devopstales/krew
+kubectl krew install devopstales/login
 
 # Chocolatey (Windows)
 choco install kubectl-login
@@ -45,6 +53,8 @@ Point the url to the ingress of the server component:
 ```bash
 $ kubectl login https://kubeauth.k8s.intra
 Configfile created with config for productioncluster to ~/.kube/config
+# OR I sou installed from main Krew
+kubectl dtlogin https://kubeauth.k8s.intra
 Happy Kubernetes interaction!
 ```
 
