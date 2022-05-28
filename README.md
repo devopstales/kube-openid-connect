@@ -53,7 +53,7 @@ Point the url to the ingress of the server component:
 ```bash
 $ kubectl login https://kubeauth.k8s.intra
 Configfile created with config for productioncluster to ~/.kube/config
-# OR I sou installed from main Krew
+# OR If you installed from main Krew
 kubectl dtlogin https://kubeauth.k8s.intra
 Happy Kubernetes interaction!
 ```
