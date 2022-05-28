@@ -1,5 +1,5 @@
 SHELL:=/bin/bash
-export VERSION=1.0
+export VERSION=1.1
 
 .PHONY: all
 all:    build
@@ -16,9 +16,10 @@ help:
 build:
 	sed -i "s|AppVersion = .*|AppVersion = \"${VERSION}\"|" main.go
 	rm -rf dist/{windows,linux,osx,release}
-	go build -o dist/linux/kubectl-login main.go
-	env GOOS=darwin GOARCH=amd64 go build -o dist/osx/kubectl-login main.go
-	env GOOS=windows GOARCH=amd64 go build -o dist/windows/kubectl-login.exe main.go
+	rm -f dist/choco/*.nupkg
+	env CGO_ENABLED=0 go build -o dist/linux/kubectl-login main.go
+	env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o dist/osx/kubectl-login main.go
+	env CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o dist/windows/kubectl-login.exe main.go
 
 #package: @ Create archives, brew and choco files
 package:
@@ -74,6 +75,8 @@ release:
 	@echo "🤖 CD bot is Releasing to GitHub"
 	gh release create client_v${VERSION} --generate-notes ./dist/release/*
 
+#publish: @ Publish package
+publish:
 	@echo "⬇️ Git checkout: homebrew-devopstales"
 	git clone git@github.com:devopstales/homebrew-devopstales.git; \
 	cd homebrew-devopstales; \
@@ -112,7 +115,7 @@ release:
 
 	@echo "🗑️ Cleaning repositoris"
 	rm -rf dist/{windows,linux,osx,release}
-	rm -f  dist/choco/kubectl-login.*.nupkg
+	rm -f  dist/choco/*.nupkg
 	rm -rf homebrew-devopstales
 	rm -rf krew-index
 
@@ -123,7 +126,7 @@ release:
 	git stash -- dist/krew-main/dtlogin.yaml
 	@echo "🚀 Packages are deployed! 🎉"
 
-#release-choco: @ Publish choco package
-release-choco:
+#publish-choco: @ Publish choco package
+publish-choco:
 	@echo "⬆️ Push: Choco"
 	docker run -v `pwd`/dist/choco/:/src -w /src -it --rm  linuturk/mono-choco push kubectl-login.${VERSION}.nupkg --key ${CHOCO_TOKEN} --source https://push.chocolatey.org/

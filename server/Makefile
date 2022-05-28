@@ -29,6 +29,7 @@ devel-push:
 
 #version: @ Build versiond docker image
 version:
+#	docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 	docker build -t devopstales/kube-openid-connector:$(VERSION)-amd64 --build-arg ARCH=amd64/ .
 	docker build -t devopstales/kube-openid-connector:$(VERSION)-arm64v8 --build-arg ARCH=arm64v8/ .
 #       docker build -t devopstales/kube-openid-connector:$(VERSION)-arm32v7 --build-arg ARCH=arm32v7/ .

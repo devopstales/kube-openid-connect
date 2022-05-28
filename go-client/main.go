@@ -28,7 +28,7 @@ import (
 const (
 	kubeConfigEnvName         = "KUBECONFIG"
 	kubeConfigDefaultFilename = "~/.kube/config"
-	AppVersion = "1.0"
+	AppVersion = "1.1"
 )
 
 type request struct {

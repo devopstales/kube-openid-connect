@@ -10,6 +10,7 @@ linux/
 osx/
 windows/
 test*
+frontmatter.json
 
 # server
 server/docker/static/

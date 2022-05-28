@@ -6,11 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Kubectl OIDC Auth Server</title>
 
+    <!-- bootstrap -->
     <link rel="stylesheet" href="{{ url_for('static',filename='bootstrap.min.css') }}" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="{{ url_for('static',filename='jquery-3.2.1.slim.min.js') }}" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="{{ url_for('static',filename='popper.min.js') }}" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="{{ url_for('static',filename='bootstrap.min.js') }}" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+    <!-- highlight js -->
     <link rel="stylesheet" href="{{ url_for('static',filename='an-old-hope.min.css') }}">
     <script src="{{ url_for('static',filename='highlight.min.js') }}"></script>
     <script>hljs.highlightAll();</script>
@@ -97,7 +99,7 @@ choco install kubectl-login
 https://github.com/devopstales/kube-openid-connect/releases</code></pre>
           <h5 class="card-title">Use the plugin.</h5>
           <pre><code class="bash">$ kubectl login {{ redirect_uri }}
-# OR I sou installed from main Krew
+# OR If you installed from main Krew
 kubectl dtlogin {{ redirect_uri }}
 Configfile created with config for productioncluster to ~/.kube/config
 Happy Kubernetes interaction!</code></pre>

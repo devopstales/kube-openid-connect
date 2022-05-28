@@ -17,7 +17,7 @@ client_id = os.getenv("OAUTH_CLIENT_ID")
 client_secret = os.getenv("OAUTH_CLIENT_SECRET")
 redirect_uri = os.getenv("OAUTH_REDIRECT_URI", "http://localhost:5000/callback")
 out_url =  os.getenv("OAUTH_OUT_URI", "https://devopstales.github.io")
-verify = os.getenv("OAUTH_CA_BUNDLE", False)
+verify = os.getenv("OAUTH_CA_BUNDLE", False) in ('true', '1', 'True', 't', 'yes', 'Yes')
 context = os.getenv("K8S_CONTEXT")
 base64_k8s_server_ca = os.getenv("K8S_SERVER_CA")
 k8s_server_url = os.getenv("K8S_SERVER_URL")
@@ -80,7 +80,7 @@ def callback():
 
     #if verify:
     #    kube_user["auth-provider"]["config"]["idp-certificate-authority"] = verify
-    
+
     if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
         remote_addr = request.remote_addr
     else:
@@ -98,7 +98,7 @@ def callback():
             "idp-issuer-url": oauth_server_uri,
             "client_secret": client_secret,
             }
-        )        
+        )
         app.logger.info("Config sent to client")
         app.logger.info("Answer from clinet: %s" % x.text)
     except:
